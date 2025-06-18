@@ -1,0 +1,11 @@
+{
+    "manufacturer": "JacksonPY",
+    "keyboard_name": "Orion",
+    "url": "",
+    "maintainer": "JacksonPY",
+    "usb": {
+        "vid": "0xFEFE",
+        "pid": "0x5177",
+        "device_version": "1.0.0"
+    }
+}
