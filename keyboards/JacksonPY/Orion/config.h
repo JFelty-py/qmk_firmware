@@ -73,7 +73,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 
-
+#define ENCODERS_PAD_A { GP29 }
+#define ENCODERS_PAD_B { GP28 }
 
 // For VIK modules with encoders
 /*
@@ -98,9 +99,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_MODS_ENABLE
 #define SPLIT_HAPTIC_ENABLE
 #define SERIAL_PIO_USE_PIO1
-#define SERIAL_USART_FULL_DUPLEX   // Enable full duplex operation mode.
-#define SERIAL_USART_TX_PIN GP0     // USART TX pin
-#define SERIAL_USART_RX_PIN GP1     // USART RX pin
+#define SERIAL_USART_HALF_DUPLEX   // Enable half duplex operation mode.
+#define SERIAL_USART_TX_PIN GP20     // USART TX pin
 
 
 #ifdef CIRQUE_ENABLE
@@ -108,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     // This is for I2C only, which is not the default
     #define CIRQUE_PINNACLE_ADDR 0x2A
     // This is for SPI only, which is the default
-    #define CIRQUE_PINNACLE_SPI_CS_PIN GP9
+    #define CIRQUE_PINNACLE_SPI_CS_PIN GP13
     
     // Uncomment 2 lines below to switch to relative mode and enable right click
     // Note that tap to click doesn't work on the slave side unless you enable relative mode
@@ -166,7 +166,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-#define WS2812_DI_PIN GP16
+#define WS2812_DI_PIN GP22
 #ifdef RGBLIGHT_ENABLE
     #define RGBLIGHT_SPLIT
     #define RGBLED_SPLIT { 28, 28 }

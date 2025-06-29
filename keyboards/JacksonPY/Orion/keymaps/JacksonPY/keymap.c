@@ -23,7 +23,7 @@
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
     _QWERTY,
-    _COLEMAK,
+    _GAMER,
     _LOWER,
     _RAISE,
     _ADJUST
@@ -43,140 +43,146 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Qwerty
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * | Shft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     | spot |LOWER| Enter| Del |    |BckSpc| Space| RAISE| spot|         | MUTE |
+ *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |Mouse3|Mouse1|Mouse2| xxx | xxx |    |  xxx | xxx |Vol- | Mute | Vol+ |    // 5 way hat switch
+ *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
 // Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_QWERTY] = LAYOUT_Orion(
-  KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,    KC_0,         KC_0,         KC_0,         KC_0,            KC_0,
-  KC_ESC,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
+  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
   KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      KC_0          LOWER,        KC_ENT,       KC_DEL,       KC_BSPC, KC_SPC,       RAISE,        KC_0          KC_MUTE,
-                KC_0          KC_0          KC_MS_BTN3,   KC_MS_BTN1,   KC_MS_BTN2,   KC_0,    KC_0,         KC_VOLD,      KC_MUTE,      KC_VOLU
+  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
 ),
 
-/* Colemak
+/* GAMER
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * | Shft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     | spot |LOWER| Enter| Del |    |BckSpc| Space| RAISE| spot|         | MUTE |
+ *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |Mouse3|Mouse1|Mouse2| xxx | xxx |    |  xxx | xxx |Vol- | Mute | Vol+ |    // 5 way hat switch
+ *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
 // Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
-[_COLEMAK] = LAYOUT_Orion(
-  KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,    KC_0,         KC_0,         KC_0,         KC_0,            KC_0,
-  KC_ESC,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
+[_GAMER] = LAYOUT_Orion(
+  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
   KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      KC_0          LOWER,        KC_ENT,       KC_DEL,       KC_BSPC, KC_SPC,       RAISE,        KC_0          KC_MUTE,
-                KC_0          KC_0          KC_MS_BTN3,   KC_MS_BTN1,   KC_MS_BTN2,   KC_0,    KC_0,         KC_VOLD,      KC_MUTE,      KC_VOLU
+  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
 ),
 
 /* Raise
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * | Shft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     | spot |LOWER| Enter| Del |    |BckSpc| Space| RAISE| spot|         | MUTE |
+ *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |Mouse3|Mouse1|Mouse2| xxx | xxx |    |  xxx | xxx |Vol- | Mute | Vol+ |    // 5 way hat switch
+ *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
+
+// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_RAISE] = LAYOUT_Orion(
-  KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,    KC_0,         KC_0,         KC_0,         KC_0,            KC_0,
-  KC_ESC,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
+  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
   KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      KC_0          LOWER,        KC_ENT,       KC_DEL,       KC_BSPC, KC_SPC,       RAISE,        KC_0          KC_MUTE,
-                KC_0          KC_0          KC_MS_BTN3,   KC_MS_BTN1,   KC_MS_BTN2,   KC_0,    KC_0,         KC_VOLD,      KC_MUTE,      KC_VOLU
+  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
 ),
 
 /* Lower
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |   `  |   Q  |   W  |   ^  |   R  |   T  |           |   *  |   7  |   8  |   9  |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
+ * |  Tab |  CTL |   <  |   v  |   >  |   G  |           |   /  |   4  |   5  |   6  |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * | Shft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   +  |   1  |   2  |   3  |      | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     | spot |LOWER| Enter| Del |    |BckSpc| Space| RAISE| spot|         | MUTE |
+ *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    |   =  |  -  |   0   |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |Mouse3|Mouse1|Mouse2| xxx | xxx |    |  xxx | xxx |Vol- | Mute | Vol+ |    // 5 way hat switch
+ *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
+
+// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_LOWER] = LAYOUT_Orion(
-  KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,    KC_0,         KC_0,         KC_0,         KC_0,            KC_0,
-  KC_ESC,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      KC_0          LOWER,        KC_ENT,       KC_DEL,       KC_BSPC, KC_SPC,       RAISE,        KC_0          KC_MUTE,
-                KC_0          KC_0          KC_MS_BTN3,   KC_MS_BTN1,   KC_MS_BTN2,   KC_0,    KC_0,         KC_VOLD,      KC_MUTE,      KC_VOLU
+  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_GRV,       KC_Q,         KC_W,         KC_UP,        KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
+  KC_TAB,       KC_LCTL,      KC_LEFT,      KC_DOWN,      KC_RGHT,      KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,      RAISE,        RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
 ),
 
 /* Adjust (Lower + Raise)
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Esc |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * | Shft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     | spot |LOWER| Enter| Del |    |BckSpc| Space| RAISE| spot|         | MUTE |
+ *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |Mouse3|Mouse1|Mouse2| xxx | xxx |    |  xxx | xxx |Vol- | Mute | Vol+ |    // 5 way hat switch
+ *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
-[_ADJUST] =  LAYOUT_Orion(
-  KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,         KC_0,    KC_0,         KC_0,         KC_0,         KC_0,            KC_0,
-  KC_ESC,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
+
+// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
+[_ADJUST] = LAYOUT_Orion(
+  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
   KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      KC_0          LOWER,        KC_ENT,       KC_DEL,       KC_BSPC, KC_SPC,       RAISE,        KC_0          KC_MUTE,
-                KC_0          KC_0          KC_MS_BTN3,   KC_MS_BTN1,   KC_MS_BTN2,   KC_0,    KC_0,         KC_VOLD,      KC_MUTE,      KC_VOLU
+  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
 )
 };
 
@@ -215,4 +221,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     return true;
-}
+};
+
+#if defined(ENCODER_MAP_ENABLE)
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+    [0] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
+    [1] = { ENCODER_CCW_CW(UG_HUED, UG_HUEU),  ENCODER_CCW_CW(UG_SATD, UG_SATU)  },
+    [2] = { ENCODER_CCW_CW(UG_VALD, UG_VALU),  ENCODER_CCW_CW(UG_SPDD, UG_SPDU)  },
+    [3] = { ENCODER_CCW_CW(UG_PREV, UG_NEXT),  ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
+};
+#endif
