@@ -1,5 +1,40 @@
 #include QMK_KEYBOARD_H
 
+//Advanced Tap Dance
+typedef enum {
+    TD_NONE,
+    TD_UNKNOWN,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD,
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_HOLD,
+    TD_DOUBLE_SINGLE_TAP, // Send two single taps
+    TD_TRIPLE_TAP,
+    TD_TRIPLE_HOLD
+} td_state_t;
+
+typedef struct {
+    bool is_press_action;
+    td_state_t state;
+} td_tap_t;
+
+// Tap dance enums
+enum {
+    G_LBRK,
+    H_RBRK,
+    SOME_OTHER_DANCE
+};
+
+td_state_t cur_dance(tap_dance_state_t *state);
+
+// For the g tap dance. Put it here so it can be used in any keymap
+void g_finished(tap_dance_state_t *state, void *user_data);
+void g_reset(tap_dance_state_t *state, void *user_data);
+
+// For the h tap dance. Put it here so it can be used in any keymap
+void h_finished(tap_dance_state_t *state, void *user_data);
+void h_reset(tap_dance_state_t *state, void *user_data);
+
 /*Return to this later
  *#define LAYOUT_Orion_base( \
  *  K01, K02, K03, K04, K05, K06, K07, K08, K09, K10, K11, K12, \
@@ -61,53 +96,52 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_QWERTY] = LAYOUT_Orion(
-  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_MINS,
   KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+  KC_TAB,       LCTL_T(KC_A), LSFT_T(KC_S), LALT_T(KC_D), LGUI_T(KC_F), KC_G,         KC_H,    RGUI_T(KC_J), RALT_T(KC_K), RSFT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
   C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
+                KC_MUTE,      TT(LOWER),    SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      TT(RAISE),    RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* GAMER
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
+ * |  Esc |   1  |   2  |   3  |   4  |   5  |           |   6  |   7  |   8  |   9  |   10 |   -  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |  sft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
  *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^     |<    |v    |>     |pALT  |    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
-// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_GAMER] = LAYOUT_Orion(
-  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
+  KC_ESC,       KC_1,         KC_F,         KC_3,         KC_4,         KC_5,         KC_6,    KC_7,         KC_8,         KC_9,         KC_0,            KC_MINS,
   KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
+  KC_TAB,       KC_A,         KC_S,         KC_D,         KC_F,         KC_G,         KC_H,    KC_J,         KC_K,         KC_L,         KC_SCLN,         KC_QUOT,
+  KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                KC_MUTE,      TT(LOWER),    KC_LCTL,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      KC_RALT,      TT(RAISE),    RSG(KC_S),
+                KC_UP,        KC_LEFT,      KC_DOWN,      KC_RIGHT,     KC_RALT,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
 ),
 
 /* Raise
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
+ * |PAUSE | MUTE |VDown | VUP  | PREV | NEXT |           | BRID | BRIU | MAIL | CALC | MYCP | CTPL |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |      |      |      |      |      |      |           |      |      |      |      |      |  \   |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
+ * |      |   !  |  @   |  #   |  $   |  %   |           |   ^  |   &  |  *   |  (   |  )   |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |      |      |  {   |   [  |   (  |   <  |           |   >  |   )  |   ]  |  }   |      |      |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
  *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
@@ -117,74 +151,113 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *              `--------------------------------'    `--------------------------------.
  */
 
-// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
+// Symbols Layer
 [_RAISE] = LAYOUT_Orion(
-  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
-  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
+  KC_MPLY,      KC_MUTE,      KC_VOLD,      KC_VOLU,      KC_MPRV,      KC_MNXT,      KC_BRID, KC_BRIU,      KC_MAIL,      KC_CALC,      KC_MYCM,         KC_CPNL,
+  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          KC_BSLS,
+  ______,       KC_EXLM,      KC_AT,        KC_HASH,      KC_DLR,       KC_PERC,      KC_CIRC, KC_AMPR,      KC_ASTR,      KC_LPRN,      KC_RPRN,         ______,
+  ______,       ______,       KC_LCBR,      KC_LBRC,      KC_LPRN,      KC_LT,        KC_GT,   KC_RPRN,      KC_RBRC,      KC_RCBR,      ______,          ______,  
+                KC_MUTE,      TT(LOWER),    SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      TT(RAISE),    RSG(KC_S),
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Lower
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |      |      |
+ * |  Esc |      |      |      |      |      |           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |   `  |   Q  |   W  |   ^  |   R  |   T  |           |   *  |   7  |   8  |   9  |      |      |
+ * |      |      |SCRLFT|   ^  |SCRRIT|SCRUP |           |   *  |   7  |   8  |   9  |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Tab |  CTL |   <  |   v  |   >  |   G  |           |   /  |   4  |   5  |   6  |      |      |
+ * |  Tab |  SFT |   <  |   v  |   >  |SCRDN |           |   /  |   4  |   5  |   6  | CTSFT|  ALT |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   +  |   1  |   2  |   3  |      | Ctrl |
+ * |ctsft |      |      |      |      |      |           |   +  |   1  |   2  |   3  |      | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
  *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    |   =  |  -  |   0   |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^ MB5 |<MB1 |vMB4 |>MB2  |p MB3 |    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
-
-// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
+// Number Pad Layer with directions
 [_LOWER] = LAYOUT_Orion(
-  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
-  KC_GRV,       KC_Q,         KC_W,         KC_UP,        KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       KC_LCTL,      KC_LEFT,      KC_DOWN,      KC_RGHT,      KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
+  KC_ESC,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,         ______,
+  ______,       ______,       MS_WHLL,      KC_UP,        MS_WHLR,      MS_WHLU,      KC_PAST, KC_7,         KC_8,         KC_9,         ______,         ______,
+  KC_TAB,       KC_LSFT,      KC_LEFT,      KC_DOWN,      KC_RGHT,      MS_WHLD,      KC_SLSH, KC_4,         KC_5,         KC_6,         C(KC_LSFT),     KC_RALT,
+  C(KC_LSFT),   ______,       ______,       ______,       ______,       ______,       KC_PPLS, KC_1,         KC_2,         KC_3,         ______,         KC_RCTL,
+                KC_MUTE,      TT(LOWER),    SC_LCPO,      KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,         TT(RAISE),    RSG(KC_S),
+                MS_BTN5,      MS_BTN1,      MS_BTN4,      MS_BTN2,      MS_BTN3,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Adjust (Lower + Raise)
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
+ * |      |      |      |      |      |LEDTOG|           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * |      |      |      |      |ANIPRV|ANINEX|           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
+ * |      |      |      |      |      |      |           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |ctsft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
+ * |AUTO C|      |      |      |      |      |           |      |      |      |      |      |      |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
+ *        |      |     |     |      |      |     |    |      |      |      |     |         | BOOT |
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^     |<    |v    |>     |p     |    |P     |>    |v    |<     |^     |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
-// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_ADJUST] = LAYOUT_Orion(
-  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_0,
-  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_G,         KC_H,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DMRSTP,       KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
+  ______,       ______,       ______,       ______,       ______,       RM_TOGG,      ______,  ______,       ______,       ______,       ______,          ______,
+  RM_SPDD,      RM_SPDU,      RM_BRID,      RM_BRIU,      RM_PREV,      RM_NEXT,      ______,  ______,       ______,       ______,       ______,          ______,
+  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
+  AC_TOGG,      ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
+                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       QK_BOOT,
+                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______
 )
 };
+
+
+/* BLANK - This is a blank layer that can be used to create custom keymaps
+ *
+ * ,-----------------------------------------.           ,-----------------------------------------.
+ * |      |      |      |      |      |      |           |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|           |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |           |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|           |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |           |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|           |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |           |      |      |      |      |      |      |
+ * `-----------------------------------------'           `-----------------------------------------'
+ *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
+ *        |      |     |     |      |      |     |    |      |      |      |     |         |      |
+ *        `------'     `-------------------------'    `--------------------------.         `------'
+ *              ,--------------------------------.    ,--------------------------------.
+ *              |^     |<    |v    |>     |p     |    |P     |>    |v    |<     |^     |    // 5 way hat switch
+ *              `--------------------------------'    `--------------------------------.
+ 
+
+[_BLANK] = LAYOUT_Orion(
+  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
+  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
+  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
+  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
+                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,
+                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______
+)
+};
+*/
+
+
+
+
+
+
+//Set number of taps to toggle a layer instead of hold
+#define TAPPING_TOGGLE 2
+
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -223,6 +296,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+#define ENCODER_MAP_ENABLE
+
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [0] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
@@ -231,3 +306,140 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [3] = { ENCODER_CCW_CW(UG_PREV, UG_NEXT),  ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
 };
 #endif
+
+// Key Overrides
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
+const key_override_t insert_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_ENT, KC_PGUP);
+
+// This globally defines all key overrides to be used
+const key_override_t *key_overrides[] = {
+	&delete_key_override
+    &insert_key_override
+};
+
+
+
+// Tap Dance Definitions
+/* Return an integer that corresponds to what kind of tap dance should be executed.
+ *
+ * How to figure out tap dance state: interrupted and pressed.
+ *
+ * Interrupted: If the state of a dance is "interrupted", that means that another key has been hit
+ *  under the tapping term. This is typically indicative that you are trying to "tap" the key.
+ *
+ * Pressed: Whether or not the key is still being pressed. If this value is true, that means the tapping term
+ *  has ended, but the key is still being pressed down. This generally means the key is being "held".
+ *
+ * One thing that is currently not possible with qmk software in regards to tap dance is to mimic the "permissive hold"
+ *  feature. In general, advanced tap dances do not work well if they are used with commonly typed letters.
+ *  For example "A". Tap dances are best used on non-letter keys that are not hit while typing letters.
+ *
+ * Good places to put an advanced tap dance:
+ *  z,q,x,j,k,v,b, any function key, home/end, comma, semi-colon
+ *
+ * Criteria for "good placement" of a tap dance key:
+ *  Not a key that is hit frequently in a sentence
+ *  Not a key that is used frequently to double tap, for example 'tab' is often double tapped in a terminal, or
+ *    in a web form. So 'tab' would be a poor choice for a tap dance.
+ *  Letters used in common words as a double. For example 'p' in 'pepper'. If a tap dance function existed on the
+ *    letter 'p', the word 'pepper' would be quite frustrating to type.
+ *
+ * For the third point, there does exist the 'TD_DOUBLE_SINGLE_TAP', however this is not fully tested
+ *
+ */
+td_state_t cur_dance(tap_dance_state_t *state) {
+    if (state->count == 1) {
+        if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
+        // Key has not been interrupted, but the key is still held. Means you want to send a 'HOLD'.
+        else return TD_SINGLE_HOLD;
+    } else if (state->count == 2) {
+        // TD_DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+        // action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+        // keystrokes of the key, and not the 'double tap' action/macro.
+        if (state->interrupted) return TD_DOUBLE_SINGLE_TAP;
+        else if (state->pressed) return TD_DOUBLE_HOLD;
+        else return TD_DOUBLE_TAP;
+    }
+
+    // Assumes no one is trying to type the same letter three times (at least not quickly).
+    // If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+    // an exception here to return a 'TD_TRIPLE_SINGLE_TAP', and define that enum just like 'TD_DOUBLE_SINGLE_TAP'
+    if (state->count == 3) {
+        if (state->interrupted || !state->pressed) return TD_TRIPLE_TAP;
+        else return TD_TRIPLE_HOLD;
+    } else return TD_UNKNOWN;
+}
+
+// Create an instance of 'td_tap_t' for the 'g' tap dance.
+static td_tap_t gtap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void g_finished(tap_dance_state_t *state, void *user_data) {
+    gtap_state.state = cur_dance(state);
+    switch (gtap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_G); break;
+        case TD_SINGLE_HOLD: register_code(KC_LPRN); break;
+        case TD_DOUBLE_TAP: register_code(KC_LBRC); break;
+        case TD_DOUBLE_HOLD: register_code(KC_LCBR); break;
+        // Last case is for fast typing. Assuming your key is `f`:
+        // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
+        // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
+        case TD_DOUBLE_SINGLE_TAP: tap_code(KC_G); register_code(KC_G); break;
+        default: break;
+    }
+}
+
+void g_reset(tap_dance_state_t *state, void *user_data) {
+    switch (gtap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_G); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_LPRN); break;
+        case TD_DOUBLE_TAP: unregister_code(KC_LBRC); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_LCBR); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_G); break;
+        default: break;
+    }
+    gtap_state.state = TD_NONE;
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [G_LBRK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, g_finished, g_reset)
+};
+
+// Create an instance of 'td_tap_t' for the 'h' tap dance.
+static td_tap_t htap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void h_finished(tap_dance_state_t *state, void *user_data) {
+    htap_state.state = cur_dance(state);
+    switch (htap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_H); break;
+        case TD_SINGLE_HOLD: register_code(KC_RPRN); break;
+        case TD_DOUBLE_TAP: register_code(KC_RBRC); break;
+        case TD_DOUBLE_HOLD: register_code(KC_RCBR); break;
+        // Last case is for fast typing. Assuming your key is `f`:
+        // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
+        // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
+        case TD_DOUBLE_SINGLE_TAP: tap_code(KC_H); register_code(KC_H); break;
+        default: break;
+    }
+}
+
+void h_reset(tap_dance_state_t *state, void *user_data) {
+    switch (htap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_H); break;
+        case TD_SINGLE_HOLD: unregister_code(KC_RPRN); break;
+        case TD_DOUBLE_TAP: unregister_code(KC_RBRC); break;
+        case TD_DOUBLE_HOLD: unregister_code(KC_RCBR); break;
+        case TD_DOUBLE_SINGLE_TAP: unregister_code(KC_H); break;
+        default: break;
+    }
+    htap_state.state = TD_NONE;
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [H_LBRK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, h_finished, h_reset)
+};

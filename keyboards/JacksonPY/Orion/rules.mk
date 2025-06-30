@@ -30,6 +30,8 @@ FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 ENCODER_ENABLE ?= no
 EXTRAFLAGS     += -flto     # macros enable or disable
 MOUSEKEY_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+KEY_OVERRIDE_ENABLE = yes
 
 #HAPTIC FEEDBACK
 HAPTIC_ENABLE ?= no
