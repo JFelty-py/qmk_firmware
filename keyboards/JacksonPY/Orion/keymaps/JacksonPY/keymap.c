@@ -59,6 +59,7 @@ void h_reset(tap_dance_state_t *state, void *user_data);
 enum layer_names {
     _QWERTY,
     _GAMER,
+    _PROG,
     _LOWER,
     _RAISE,
     _ADJUST
@@ -66,6 +67,8 @@ enum layer_names {
 
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
+    GAMER,
+    PROG,
     LOWER,
     RAISE,
     ADJUST
@@ -80,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.           ,-----------------------------------------.
  * |  Esc |  F1  |  F2  |  F3  |  F4  |  F5  |           |  F6  |  F7  |  F8  |  F9  |  F10 |   -  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |   `  |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |   \  |
+ * | `(H) |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  | \(M) |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |  Tab |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |   '  |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
@@ -96,12 +99,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
 [_QWERTY] = LAYOUT_Orion(
-  KC_ESC,       KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_MINS,
-  KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
-  KC_TAB,       LCTL_T(KC_A), LSFT_T(KC_S), LALT_T(KC_D), LGUI_T(KC_F), KC_G,         KC_H,    RGUI_T(KC_J), RALT_T(KC_K), RSFT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
-  C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
+  KC_ESC,         KC_F1,        KC_F2,        KC_F3,        KC_F4,        KC_F5,        KC_F6,   KC_F7,        KC_F8,        KC_F9,        KC_F10,          KC_MINS,
+  HYPR_T(KC_GRV), KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            MEH_T(KC_BSLS),
+  KC_TAB,         LCTL_T(KC_A), LSFT_T(KC_S), LALT_T(KC_D), LGUI_T(KC_F), KC_G,         KC_H,    RGUI_T(KC_J), RALT_T(KC_K), RSFT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
+  C(KC_LSFT),     KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
+                  KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
+                  DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* GAMER
@@ -119,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *        | LLOK |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^     |<    |v    |>     |pALT  |    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^     |<    |v    |>     |pALT  |    |PSNIPE|>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
@@ -129,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,       KC_A,         KC_S,         KC_D,         KC_F,         KC_G,         KC_H,    KC_J,         KC_K,         KC_L,         KC_SCLN,         KC_QUOT,
   KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
                 QK_LLCK,      LOWER,        KC_LCTL,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      KC_RALT,      RAISE,        RSG(KC_S),
-                KC_UP,        KC_LEFT,      KC_DOWN,      KC_RIGHT,     KC_RALT,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
+                KC_UP,        KC_LEFT,      KC_DOWN,      KC_RIGHT,     KC_RALT, FP_SNIPE_TOG, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Raise
@@ -137,28 +140,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.           ,-----------------------------------------.
  * |PAUSE | MUTE |VDown | VUP  | PREV | NEXT |           | BRID | BRIU | MAIL | CALC | MYCP | CTPL |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |      |      |      |      |      |      |           |      |      |      |      |      |  \   |
+ * |      |      |      |      |      |      |           | PTSC | INS  | DEL  |      |      |  \   |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |      |   !  |  @   |  #   |  $   |  %   |           |   ^  |   &  |  *   |  (   |  )   |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |      |      |  {   |   [  |   (  |   <  |           |   >  |   )  |   ]  |  }   |      |      |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
+ *        | LLOCK|     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | LEAD |
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^rec1 |<rec2|vply1|>ply2 |pMac S|    |PMCTL |>ASST|vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
 // Symbols Layer
 [_RAISE] = LAYOUT_Orion(
   KC_MPLY,      KC_MUTE,      KC_VOLD,      KC_VOLU,      KC_MPRV,      KC_MNXT,      KC_BRID, KC_BRIU,      KC_MAIL,      KC_CALC,      KC_MYCM,         KC_CPNL,
-  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          KC_BSLS,
+  ______,       ______,       ______,       ______,       ______,       ______,       KCPSCR,  KC_INS,       KC_DEL,       ______,       ______,          KC_BSLS,
   ______,       KC_EXLM,      KC_AT,        KC_HASH,      KC_DLR,       KC_PERC,      KC_CIRC, KC_AMPR,      KC_ASTR,      KC_LPRN,      KC_RPRN,         ______,
   ______,       ______,       KC_LCBR,      KC_LBRC,      KC_LPRN,      KC_LT,        KC_GT,   KC_RPRN,      KC_RBRC,      KC_RCBR,      ______,          ______,  
-                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
-                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
+                QK_LLCK,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        QK_LEAD,
+                DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,    G(KC_TAB), KC_ASST,      KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Lower
@@ -173,10 +176,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |ctsft |      |      |      |      |      |           |   +  |   1  |   2  |   3  |      | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | LLOCK|     |LOWER| Ctrl |BckSpc|Space|    |   =  |  -  |   0   |RAISE|         |  MC  |
+ *        | LLOCK|     |LOWER| PROG |BckSpc|Space|    |   =  |  -  |   0   |RAISE|         |      |
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^ MB5 |<MB1 |vMB4 |>MB2  |p MB3 |    |PASST |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^ MB5 |<MB1 |vMB4 |>MB2  |p MB3 |    |PMCTL |>ASST|vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 // Number Pad Layer with directions
@@ -185,39 +188,67 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ______,       ______,       MS_WHLL,      KC_UP,        MS_WHLR,      MS_WHLU,      KC_PAST, KC_7,         KC_8,         KC_9,         ______,         ______,
   KC_TAB,       KC_LSFT,      KC_LEFT,      KC_DOWN,      KC_RGHT,      MS_WHLD,      KC_SLSH, KC_4,         KC_5,         KC_6,         C(KC_LSFT),     KC_RALT,
   C(KC_LSFT),   ______,       ______,       ______,       ______,       ______,       KC_PPLS, KC_1,         KC_2,         KC_3,         ______,         KC_RCTL,
-                QK_LLCK,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,         RAISE,        G(KC_TAB),
-                MS_BTN5,      MS_BTN1,      MS_BTN4,      MS_BTN2,      MS_BTN3,      KC_ASST, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
+                QK_LLCK,      LOWER,        PROG,         KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,         RAISE,        ______,
+                MS_BTN5,      MS_BTN1,      MS_BTN4,      MS_BTN2,      MS_BTN3,    G(KC_TAB), KC_ASST,      KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Adjust (Lower + Raise)
  *
  * ,-----------------------------------------.           ,-----------------------------------------.
- * |      |      |      |      |      |LEDTOG|           |      |      |      |      |      |      |
+ * |SATDN |SARUP |HUEDN |HUEUP |      |LEDTOG|           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |SPDDN |SPDUP |BRIDN |BRIUP |ANIPRV|ANINEX|           |      |      |      |      |      |      |
+ * |SPDDN |SPDUP |BRIDN |BRIUP |ANIPRV|ANINEX|           | ACEL | DPIUP|      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |      |      |      |      |      |      |           |      |      |      |      |      |      |
+ * |      |      |      |      |      |      |           | ZOOM | DPIDN|      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |AUTO C|      |      |      |      |      |           |      |      |      |      |      |      |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        |      |     |     |      |      |     |    |GAME  |      |      |     |         | BOOT |
+ *        | LLOCK|     | LOW |      |      |     |    |GAME  |      |      |RAISE|         | BOOT |
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^DTUP |<    |vDTDN|>     |pDTPNT|    |P     |>    |v    |<     |^     |    // 5 way hat switch
+ *              |^DTUP |<    |vDTDN|>     |pDTPNT|    |PMCTL |>    |v    |<     |^     |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
 [_ADJUST] = LAYOUT_Orion(
-  ______,       ______,       ______,       ______,       ______,       RM_TOGG,      ______,  ______,       ______,       ______,       ______,          ______,
-  RM_SPDD,      RM_SPDU,      RM_BRID,      RM_BRIU,      RM_PREV,      RM_NEXT,      ______,  ______,       ______,       ______,       ______,          ______,
-  ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
-  AC_TOGG,      ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
-                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       QK_BOOT,
-                DT_UP,        ______,       DT_DOWN,      ______,       DT_PRNT,      ______,  ______,       ______,       ______,       ______
+  RM_SATD,      RM_SATU,      RM_HUED,      RM_HUEU,      ______,       RM_TOGG,      ______,  ______,          ______,       ______,       ______,          ______,
+  RM_SPDD,      RM_SPDU,      RM_BRID,      RM_VALU,      RM_PREV,      RM_NEXT, FP_ACCEL_TOG, FP_POINT_DPI_UP, ______,       ______,       ______,          ______,
+  ______,       ______,       ______,       ______,       ______,       ______,   FP_ZOOM_TOG, FP_POINT_DPI_DN, ______,       ______,       ______,          ______,
+  AC_TOGG,      ______,       ______,       ______,       ______,       ______,       ______,  ______,          ______,       ______,       ______,          ______,
+                QK_LLCK,      LOWER,        ______,       ______,       ______,       GAME,    ______,          ______,       RAISE,        QK_BOOT,
+                DT_UP,        ______,       DT_DOWN,      ______,       DT_PRNT,    G(KC_TAB), KC_ASST,         ______,       ______,       ______
 )
 };
 
+/* PROG - This is a blank layer that can be used to create custom keymaps
+ *
+ * ,-----------------------------------------.           ,-----------------------------------------.
+ * |      |      |      |      |      |      |           |  PG1 |  PG2 |  PG3 |  PG4 |  PG5 |  PG6 |
+ * |------+------+------+------+------+------|           |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |           |  PG7 |  PG8 |  PG9 | PG10 | PG11 | PG12 |
+ * |------+------+------+------+------+------|           |------+------+------+------+------+------|
+ * |      | CTL  | SFT  | ALT  | GUI  |      |           | PG13 | PG14 | PG15 | PG16 | PG17 | PG18 |
+ * |------+------+------+------+------+------|           |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |           | PG19 | PG20 | PG21 | PG22 | PG23 | PG24 |
+ * `-----------------------------------------'           `-----------------------------------------'
+ *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
+ *        | LLOCK|     |     | PROG |      |     |    | PG25 | PG26 | PG27 | PG28|         |      |
+ *        `------'     `-------------------------'    `--------------------------.         `------'
+ *              ,--------------------------------.    ,--------------------------------.
+ *              |^     |<    |v    |>     |p     |    |P     |>    |v    |<     |^     |    // 5 way hat switch
+ *              `--------------------------------'    `--------------------------------.
+ */
+
+[_PROG] = LAYOUT_Orion(
+  ______,       ______,       ______,       ______,       ______,       ______,       PB_1,    PB_2,         PB_3,         PB_4,         PB_5,            PB_6,  
+  ______,       ______,       ______,       ______,       ______,       ______,       PB_7,    PB_8,         PB_9,         PB_10,        PB_11,           PB_12, 
+  ______,       KC_LCTL,      KC_LSFT,      KC_LALT,      KC_LGUI,      ______,       PB_13,   PB_14,        PB_15,        PB_16,        PB_17,           PB_18, 
+  ______,       ______,       ______,       ______,       ______,       ______,       PB_19,   PB_20,        PB_21,        PB_22,        PB_23,           PB_24, 
+                QK_LLCK,      ______,       PROG,         ______,       ______,       PB_25,   PB_26,        PB_27,        PB_28,        ______,
+                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______
+)
+};
 
 /* BLANK - This is a blank layer that can be used to create custom keymaps
  *
@@ -251,7 +282,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
+//Combos
+enum combo_events {
+    LS_PROG,
+    LS_GAME,
+};
 
+const uint16_t PROGMEM prog_combo[] = {KC_P, KC_R, KC_O, KC_G, COMBO_END};
+const uint16_t PROGMEM game_combo[] = {KC_G, KC_A, KC_M, KC_E, COMBO_END};
+
+combo_t key_combos[] = {
+    [LS_PROG] = COMBO_ACTION(prog_combo),
+    [LS_GAME] = COMBO_ACTION(game_combo),
+};
+
+void process_combo_event(unit16_t combo_index, bool pressed) {
+    switch (combo_index) {
+        case LS_PROG:
+            if (pressed) {
+                layer_on(_PROG);
+                tap_code16(QL_LLCK); // Lock the layer
+            } 
+            break;
+        case LS_GAME:
+            if (pressed) {
+                layer_on(_GAMER);
+                tap_code16(QL_LLCK); // Lock the layer
+            }
+            break;
+    }
+}
+// COMBO BREAKER!!!
 
 
 //Set number of taps to toggle a layer instead of hold
@@ -453,3 +514,18 @@ void h_reset(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
     [H_LBRK] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, h_finished, h_reset)
 };
+
+//Leader Key
+void leader_start_user(void) {
+    // Do something when the leader key is pressed
+}
+
+void leader_end_user(void) {
+    if (leader_sequence_one_key(KC_H)) {
+        // Leader, h => Types the below string
+        SEND_STRING("Please submit a ticket at https://educationisfreedom.atlassian.net/servicedesk/customer/portals or email support@educationisfreedom.atlassian.net");
+    } else if (leader_sequence_two_keys(KC_S)) {
+        // Leader, s => Types the below string
+        SEND_STRING("Please contact Sannaptx for assistance. Email: support@sanapptx.com Phone: 1-972-591-0151");
+    }
+}
