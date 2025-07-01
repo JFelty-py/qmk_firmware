@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_COLS 6
 
 #define TAPPING_TERM 175
-#define TAPPING_TERM_PER_KEY
+
 
 // VIK pin config
 #define VIK_SPI_DRIVER    SPID1

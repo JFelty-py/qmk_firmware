@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
   KC_TAB,       LCTL_T(KC_A), LSFT_T(KC_S), LALT_T(KC_D), LGUI_T(KC_F), KC_G,         KC_H,    RGUI_T(KC_J), RALT_T(KC_K), RSFT_T(KC_L), RCTL_T(KC_SCLN), KC_QUOT,
   C(KC_LSFT),   KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      TT(LOWER),    SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      TT(RAISE),    RSG(KC_S),
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
                 DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |  sft |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
+ *        | LLOK |     |LOWER| Ctrl |BckSpc|Space|    | Enter| Shft | Alt  |RAISE|         | SShot|
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
  *              |^     |<    |v    |>     |pALT  |    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
@@ -128,8 +128,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,       KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,            KC_BSLS,
   KC_TAB,       KC_A,         KC_S,         KC_D,         KC_F,         KC_G,         KC_H,    KC_J,         KC_K,         KC_L,         KC_SCLN,         KC_QUOT,
   KC_LSFT,      KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,         KC_RCTL,
-                KC_MUTE,      TT(LOWER),    KC_LCTL,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      KC_RALT,      TT(RAISE),    RSG(KC_S),
-                KC_UP,        KC_LEFT,      KC_DOWN,      KC_RIGHT,     KC_RALT,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,       KC_PGUP
+                QK_LLCK,      LOWER,        KC_LCTL,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      KC_RALT,      RAISE,        RSG(KC_S),
+                KC_UP,        KC_LEFT,      KC_DOWN,      KC_RIGHT,     KC_RALT,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Raise
@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          KC_BSLS,
   ______,       KC_EXLM,      KC_AT,        KC_HASH,      KC_DLR,       KC_PERC,      KC_CIRC, KC_AMPR,      KC_ASTR,      KC_LPRN,      KC_RPRN,         ______,
   ______,       ______,       KC_LCBR,      KC_LBRC,      KC_LPRN,      KC_LT,        KC_GT,   KC_RPRN,      KC_RBRC,      KC_RCBR,      ______,          ______,  
-                KC_MUTE,      TT(LOWER),    SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      TT(RAISE),    RSG(KC_S),
+                KC_MUTE,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_ENT,  KC_RSFT,      SC_RAPC,      RAISE,        RSG(KC_S),
                 DM_REC1,      DM_REC2,      DM_PLY1,      DM_PLY2,      DM_RSTP,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
@@ -173,10 +173,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |ctsft |      |      |      |      |      |           |   +  |   1  |   2  |   3  |      | Ctrl |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        | MUTE |     |LOWER| Ctrl |BckSpc|Space|    |   =  |  -  |   0   |RAISE|         | SShot|
+ *        | LLOCK|     |LOWER| Ctrl |BckSpc|Space|    |   =  |  -  |   0   |RAISE|         |  MC  |
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^ MB5 |<MB1 |vMB4 |>MB2  |p MB3 |    |Pwin  |>end |vpdn |<home |^pup  |    // 5 way hat switch
+ *              |^ MB5 |<MB1 |vMB4 |>MB2  |p MB3 |    |PASST |>end |vpdn |<home |^pup  |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 // Number Pad Layer with directions
@@ -185,8 +185,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ______,       ______,       MS_WHLL,      KC_UP,        MS_WHLR,      MS_WHLU,      KC_PAST, KC_7,         KC_8,         KC_9,         ______,         ______,
   KC_TAB,       KC_LSFT,      KC_LEFT,      KC_DOWN,      KC_RGHT,      MS_WHLD,      KC_SLSH, KC_4,         KC_5,         KC_6,         C(KC_LSFT),     KC_RALT,
   C(KC_LSFT),   ______,       ______,       ______,       ______,       ______,       KC_PPLS, KC_1,         KC_2,         KC_3,         ______,         KC_RCTL,
-                KC_MUTE,      TT(LOWER),    SC_LCPO,      KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,         TT(RAISE),    RSG(KC_S),
-                MS_BTN5,      MS_BTN1,      MS_BTN4,      MS_BTN2,      MS_BTN3,      KC_LWIN, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
+                QK_LLCK,      LOWER,        SC_LCPO,      KC_BSPC,      KC_SPC,       KC_EQL,  KC_MINS,      KC_0,         RAISE,        G(KC_TAB),
+                MS_BTN5,      MS_BTN1,      MS_BTN4,      MS_BTN2,      MS_BTN3,      KC_ASST, KC_END,       KC_PGDN,      KC_HOME,      KC_PGUP
 ),
 
 /* Adjust (Lower + Raise)
@@ -194,17 +194,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.           ,-----------------------------------------.
  * |      |      |      |      |      |LEDTOG|           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
- * |      |      |      |      |ANIPRV|ANINEX|           |      |      |      |      |      |      |
+ * |SPDDN |SPDUP |BRIDN |BRIUP |ANIPRV|ANINEX|           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |      |      |      |      |      |      |           |      |      |      |      |      |      |
  * |------+------+------+------+------+------|           |------+------+------+------+------+------|
  * |AUTO C|      |      |      |      |      |           |      |      |      |      |      |      |
  * `-----------------------------------------'           `-----------------------------------------'
  *        ,------.     ,-------------------------.    ,--------------------------.         ,------.
- *        |      |     |     |      |      |     |    |      |      |      |     |         | BOOT |
+ *        |      |     |     |      |      |     |    |GAME  |      |      |     |         | BOOT |
  *        `------'     `-------------------------'    `--------------------------.         `------'
  *              ,--------------------------------.    ,--------------------------------.
- *              |^     |<    |v    |>     |p     |    |P     |>    |v    |<     |^     |    // 5 way hat switch
+ *              |^DTUP |<    |vDTDN|>     |pDTPNT|    |P     |>    |v    |<     |^     |    // 5 way hat switch
  *              `--------------------------------'    `--------------------------------.
  */
 
@@ -214,7 +214,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ______,       ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
   AC_TOGG,      ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______,          ______,
                 ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       QK_BOOT,
-                ______,       ______,       ______,       ______,       ______,       ______,  ______,       ______,       ______,       ______
+                DT_UP,        ______,       DT_DOWN,      ______,       DT_PRNT,      ______,  ______,       ______,       ______,       ______
 )
 };
 
@@ -296,16 +296,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-#define ENCODER_MAP_ENABLE
 
-#if defined(ENCODER_MAP_ENABLE)
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [0] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
-    [1] = { ENCODER_CCW_CW(UG_HUED, UG_HUEU),  ENCODER_CCW_CW(UG_SATD, UG_SATU)  },
-    [2] = { ENCODER_CCW_CW(UG_VALD, UG_VALU),  ENCODER_CCW_CW(UG_SPDD, UG_SPDU)  },
-    [3] = { ENCODER_CCW_CW(UG_PREV, UG_NEXT),  ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
-};
-#endif
+//Encoder Logic
+// Uncomment the following lines to use custom 
+/*
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    // Your encoder logic goes here
+    #define ENCODER_MAP_ENABLE
+
+    #if defined(ENCODER_MAP_ENABLE)
+    const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+        [0] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
+        [1] = { ENCODER_CCW_CW(UG_HUED, UG_HUEU),  ENCODER_CCW_CW(UG_SATD, UG_SATU)  },
+        [2] = { ENCODER_CCW_CW(UG_VALD, UG_VALU),  ENCODER_CCW_CW(UG_SPDD, UG_SPDU)  },
+        [3] = { ENCODER_CCW_CW(UG_PREV, UG_NEXT),  ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
+    };
+    #endif
+    // return false to avoid processing the encoder_update_kb() function that fingerpunch uses
+    return false;
+}
+*/
 
 // Key Overrides
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
