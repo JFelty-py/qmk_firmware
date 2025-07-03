@@ -78,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENCODERS_PAD_B { GP28 }
 
 // For VIK modules with encoders
-/*
+
 #ifdef ENCODER_ENABLE
 #ifdef FP_SVLINKY_V01
 #define ENCODERS_PAD_A { GP18 } // svlinky v0.1
@@ -88,7 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ENCODERS_PAD_B { GP27 } // svlinky v0.2
 #endif
 #endif
-*/
+
 
 
 //### Review this
@@ -100,9 +100,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SPLIT_MODS_ENABLE
 #define SPLIT_HAPTIC_ENABLE
 #define SERIAL_PIO_USE_PIO1
-#define SERIAL_USART_HALF_DUPLEX   // Enable half duplex operation mode.
+#define SERIAL_USART_FULL_DUPLEX   // Enable half duplex operation mode.
 #define SERIAL_USART_TX_PIN GP20     // USART TX pin
-
+#define SERIAL_USART_RX_PIN GP26     // USART RX pin
 
 #ifdef CIRQUE_ENABLE
     // cirque trackpad config
