@@ -102,7 +102,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SERIAL_PIO_USE_PIO1
 #define SERIAL_USART_FULL_DUPLEX   // Enable half duplex operation mode.
 #define SERIAL_USART_TX_PIN GP20     // USART TX pin
-#define SERIAL_USART_RX_PIN GP26     // USART RX pin
+#define SERIAL_USART_RX_PIN GP24     // USART RX pin
 
 #ifdef CIRQUE_ENABLE
     // cirque trackpad config
